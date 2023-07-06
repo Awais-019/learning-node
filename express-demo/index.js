@@ -1,5 +1,7 @@
 const express = require("express");
 const Joi = require("joi");
+const helmet = require("helmet");
+const morgan = require("morgan");
 const logger = require("./middlewares/logger");
 const authenticator = require("./middlewares/authenticater");
 
@@ -11,6 +13,8 @@ app.use(logger);
 app.use(authenticator);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(helmet());
+app.use(morgan("tiny"));
 
 const courses = [
   { id: 1, name: "course1" },
