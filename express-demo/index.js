@@ -2,6 +2,7 @@ const express = require("express");
 const Joi = require("joi");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const config = require("config");
 const logger = require("./middlewares/logger");
 const authenticator = require("./middlewares/authenticater");
 
@@ -14,6 +15,9 @@ app.use(authenticator);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(helmet());
+
+console.log("Application Name: " + config.get("name"));
+console.log("Mail Server: " + config.get("mail.host"));
 
 if (app.get("env") == "development") {
   app.use(morgan("tiny"));
