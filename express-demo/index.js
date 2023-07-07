@@ -3,6 +3,8 @@ const Joi = require("joi");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const config = require("config");
+const startUpDebugger = require("debug")("app:startup");
+const dbDebugger = require("debug")("app:db");
 const logger = require("./middlewares/logger");
 const authenticator = require("./middlewares/authenticater");
 
@@ -16,12 +18,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(helmet());
 
+app.set("view engine", "pug");
+app.set("views", "./views");
+
 console.log("Application Name: " + config.get("name"));
 console.log("Mail Server: " + config.get("mail.host"));
 
 if (app.get("env") == "development") {
   app.use(morgan("tiny"));
-  console.log("Morgan enabled...");
+  startUpDebugger("Morgan enabled...");
 }
 
 const courses = [
@@ -31,7 +36,10 @@ const courses = [
 ];
 
 app.get("/", (req, res) => {
-  res.send("Hello World!!");
+  res.render("index", {
+    title: "My Express App",
+    message: "Hello",
+  });
 });
 
 app.get("/api/courses", (req, res) => {
