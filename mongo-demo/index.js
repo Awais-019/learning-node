@@ -39,9 +39,9 @@ async function getCourses() {
   // or
   // and
 
-  const courses = await Course.find()
-    .or([{ author: "Mosh" }, { isPublished: true }])
-    .and([])
+  const courses = await Course.find({
+    author: /^Mosh/i,
+  })
     .limit(10)
     .sort({ name: 1 })
     .select({
