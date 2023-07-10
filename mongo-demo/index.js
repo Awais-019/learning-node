@@ -36,12 +36,12 @@ async function getCourses() {
   // in
   // nin (not in)
 
-  const courses = await Course.find({
-    price: {
-      $gte: 10,
-      $lte: 20,
-    },
-  })
+  // or
+  // and
+
+  const courses = await Course.find()
+    .or([{ author: "Mosh" }, { isPublished: true }])
+    .and([])
     .limit(10)
     .sort({ name: 1 })
     .select({
